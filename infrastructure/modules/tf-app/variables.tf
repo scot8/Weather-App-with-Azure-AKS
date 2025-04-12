@@ -52,3 +52,8 @@ variable "tags" {
   type        = map(string)
   default     = {}
 } 
+
+variable "aks_cluster" {
+  description = "Name of the AKS cluster to deploy to"
+  type        = string
+}
