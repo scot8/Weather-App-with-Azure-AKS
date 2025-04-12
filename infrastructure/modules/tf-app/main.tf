@@ -19,13 +19,13 @@ resource "azurerm_redis_cache" "redis" {
   //enable_non_ssl_port = false
   minimum_tls_version = "1.2"
   //subnet_id           = var.redis_subnet_id
-  tags                = var.tags
+  tags = var.tags
 }
 
 # Create Kubernetes Deployment for Weather App
 resource "kubernetes_deployment" "weather_app" {
   metadata {
-    name = "weather-app"
+    name      = "weather-app"
     namespace = var.environment
   }
 
@@ -72,7 +72,7 @@ resource "kubernetes_deployment" "weather_app" {
 # Create Kubernetes Service for Weather App
 resource "kubernetes_service" "weather_app" {
   metadata {
-    name = "weather-app"
+    name      = "weather-app"
     namespace = var.environment
   }
 

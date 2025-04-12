@@ -19,7 +19,7 @@ variable "weather_api_key" {
   description = "OpenWeather API Key"
   type        = string
   sensitive   = true
-} 
+}
 
 variable "environment" {
   description = "Environment name (dev, test, or prod)"

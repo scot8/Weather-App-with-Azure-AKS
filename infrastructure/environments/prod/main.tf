@@ -20,16 +20,16 @@ terraform {
   backend "azurerm" {
     resource_group_name  = "tfstate-rg"
     storage_account_name = "tfstateprod"
-    container_name      = "tfstate"
-    key                 = "prod.terraform.tfstate"
+    container_name       = "tfstate"
+    key                  = "prod.terraform.tfstate"
   }
 }
 
 # Create backend storage
 module "backend" {
   source = "../../modules/tf-backend"
-  
-  location            = var.location
+
+  location             = var.location
   storage_account_name = "tfstateprod"
   tags = {
     Environment = "prod"
@@ -39,22 +39,22 @@ module "backend" {
 # Create network
 module "network" {
   source = "../../modules/network"
-  
-  environment = "prod"
-  location    = var.location
+
+  environment  = "prod"
+  location     = var.location
   group_number = var.group_number
-  prefix      = var.prefix
+  prefix       = var.prefix
 }
 
 # Create AKS cluster
 module "aks" {
   source = "../../modules/aks"
-  
-  environment     = "prod"
-  location        = var.location
-  resource_group_name  = module.network.resource_group_name
-  subnet_id       = module.network.prod_subnet_id
-  node_count      = 3
+
+  environment         = "prod"
+  location            = var.location
+  resource_group_name = module.network.resource_group_name
+  subnet_id           = module.network.prod_subnet_id
+  node_count          = 3
 }
 
 data "azurerm_kubernetes_cluster" "credentials" {
@@ -81,14 +81,14 @@ resource "kubernetes_namespace" "prod" {
 # Create application resources
 module "app" {
   source = "../../modules/tf-app"
-  
-  environment     = "prod"
-  location        = var.location
-  resource_group_name  = module.network.resource_group_name
-  aks_cluster     = module.aks.cluster_name
-  redis_subnet_id = module.network.prod_subnet_id
-  acr_name        = "${var.prefix}g${var.group_number}acr"
-  weather_api_key = var.weather_api_key
+
+  environment         = "prod"
+  location            = var.location
+  resource_group_name = module.network.resource_group_name
+  aks_cluster         = module.aks.cluster_name
+  redis_subnet_id     = module.network.prod_subnet_id
+  acr_name            = "${var.prefix}g${var.group_number}acr"
+  weather_api_key     = var.weather_api_key
   //aks_principal_id = module.aks.principal_id
 
   depends_on = [kubernetes_namespace.prod]

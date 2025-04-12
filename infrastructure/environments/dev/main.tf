@@ -26,8 +26,8 @@ provider "azurerm" {
 # Create backend storage
 module "backend" {
   source = "../../modules/tf-backend"
-  
-  location            = var.location
+
+  location             = var.location
   storage_account_name = "tf12statedevrohan"
   tags = {
     Environment = "dev"
@@ -37,22 +37,22 @@ module "backend" {
 # Create network
 module "network" {
   source = "../../modules/network"
-  
-  environment = "dev"
-  location    = var.location
+
+  environment  = "dev"
+  location     = var.location
   group_number = var.group_number
-  prefix      = var.prefix
+  prefix       = var.prefix
 }
 
 # Create AKS cluster
 module "aks" {
   source = "../../modules/aks"
-  
-  environment     = "dev"
-  location        = var.location
-  resource_group_name  = module.network.resource_group_name
-  subnet_id       = module.network.dev_subnet_id
-  node_count      = 1
+
+  environment         = "dev"
+  location            = var.location
+  resource_group_name = module.network.resource_group_name
+  subnet_id           = module.network.dev_subnet_id
+  node_count          = 1
 }
 
 data "azurerm_kubernetes_cluster" "credentials" {
@@ -80,16 +80,16 @@ resource "kubernetes_namespace" "dev" {
 # Create application resources
 module "app" {
   source = "../../modules/tf-app"
-  
-  environment     = "dev"
-  location        = var.location
-  resource_group_name  = module.network.resource_group_name
-  aks_cluster     = module.aks.cluster_name
-  redis_subnet_id = module.network.dev_subnet_id
-  acr_name        = "${var.prefix}g${var.group_number}acr"
-  weather_api_key = var.weather_api_key
 
-  depends_on = [kubernetes_namespace.dev]  # Add this line
+  environment         = "dev"
+  location            = var.location
+  resource_group_name = module.network.resource_group_name
+  aks_cluster         = module.aks.cluster_name
+  redis_subnet_id     = module.network.dev_subnet_id
+  acr_name            = "${var.prefix}g${var.group_number}acr"
+  weather_api_key     = var.weather_api_key
+
+  depends_on = [kubernetes_namespace.dev] # Add this line
 }
 
 # provider "kubernetes" {

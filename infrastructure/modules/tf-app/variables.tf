@@ -51,7 +51,7 @@ variable "tags" {
   description = "Tags to apply to all resources"
   type        = map(string)
   default     = {}
-} 
+}
 
 variable "aks_cluster" {
   description = "Name of the AKS cluster to deploy to"
