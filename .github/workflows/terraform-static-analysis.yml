@@ -10,8 +10,8 @@ defaults:
 permissions:
   actions: read
   contents: read
-  # security-events: write
-  pull-requests: read
+  security-events: write
+  # pull-requests: read
 
 jobs:
   terraform-static-tests:
