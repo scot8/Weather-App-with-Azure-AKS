@@ -26,3 +26,9 @@ variable "environment" {
   type        = string
   default     = "test"
 }
+
+variable "tags" {
+  description = "A map of tags to add to all resources"
+  type        = map(string)
+  default     = {}
+}
