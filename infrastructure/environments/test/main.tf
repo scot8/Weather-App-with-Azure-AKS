@@ -2,35 +2,32 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.0"
-    }
-    kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = "~> 2.0"
+      version = "~>3.0"
     }
   }
+  required_version = ">= 1.3.0"
 }
 
 provider "azurerm" {
   features {}
 }
 
-# Configure backend
-terraform {
-  backend "azurerm" {
-    resource_group_name  = "tfstate-rg"
-    storage_account_name = "tfstatetest"
-    container_name       = "tfstate"
-    key                  = "test.terraform.tfstate"
-  }
-}
+# # Configure backend
+# terraform {
+#   backend "azurerm" {
+#     resource_group_name  = "tfstate-rg"
+#     storage_account_name = "tfstatetest"
+#     container_name       = "tfstate"
+#     key                  = "test.terraform.tfstate"
+#   }
+# }
 
 # Create backend storage
 module "backend" {
   source = "../../modules/tf-backend"
 
   location             = var.location
-  storage_account_name = "tfstatetest"
+  storage_account_name = "tf12statetestrohan"
   tags = {
     Environment = "test"
   }
@@ -68,6 +65,7 @@ provider "kubernetes" {
   client_certificate     = base64decode(data.azurerm_kubernetes_cluster.credentials.kube_config.0.client_certificate)
   client_key             = base64decode(data.azurerm_kubernetes_cluster.credentials.kube_config.0.client_key)
   cluster_ca_certificate = base64decode(data.azurerm_kubernetes_cluster.credentials.kube_config.0.cluster_ca_certificate)
+  config_path = "~/.kube/config"
 }
 
 # Create the test namespace
@@ -89,7 +87,7 @@ module "app" {
   redis_subnet_id     = module.network.test_subnet_id
   acr_name            = "${var.prefix}g${var.group_number}acr"
   weather_api_key     = var.weather_api_key
-  //aks_principal_id = module.aks.principal_id
+  aks_principal_id    = module.aks.principal_id
 
   depends_on = [kubernetes_namespace.test]
 }
