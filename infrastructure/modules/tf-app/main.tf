@@ -8,6 +8,13 @@ resource "azurerm_container_registry" "acr" {
   tags                = var.tags
 }
 
+resource "azurerm_role_assignment" "aks_acr" {
+  principal_id                     = var.aks_principal_id
+  role_definition_name             = "AcrPull"
+  scope                            = azurerm_container_registry.acr.id
+  skip_service_principal_aad_check = true
+}
+
 # Create Redis Cache
 resource "azurerm_redis_cache" "redis" {
   name                = "${var.prefix}-redis-${var.environment}"
@@ -46,6 +53,10 @@ resource "kubernetes_deployment" "weather_app" {
       }
 
       spec {
+        image_pull_secrets {
+          name = "acr-auth"
+        }
+
         container {
           name  = "weather-app"
           image = "${azurerm_container_registry.acr.login_server}/weather-app:${var.image_tag}"

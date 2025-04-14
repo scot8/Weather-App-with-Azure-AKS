@@ -57,3 +57,8 @@ variable "aks_cluster" {
   description = "Name of the AKS cluster to deploy to"
   type        = string
 }
+
+variable "aks_principal_id" {
+  description = "The principal ID of the AKS cluster identity"
+  type        = string
+}

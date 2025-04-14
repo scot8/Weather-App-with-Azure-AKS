@@ -9,3 +9,8 @@ output "kube_config" {
   sensitive   = true
 }
 
+output "principal_id" {
+  description = "The principal ID of the AKS cluster identity"
+  value       = azurerm_kubernetes_cluster.main.identity[0].principal_id
+}
+

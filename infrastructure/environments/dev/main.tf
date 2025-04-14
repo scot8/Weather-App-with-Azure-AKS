@@ -88,6 +88,7 @@ module "app" {
   redis_subnet_id     = module.network.dev_subnet_id
   acr_name            = "${var.prefix}g${var.group_number}acr"
   weather_api_key     = var.weather_api_key
+  aks_principal_id    = module.aks.principal_id
 
   depends_on = [kubernetes_namespace.dev] # Add this line
 }

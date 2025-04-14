@@ -65,7 +65,7 @@ provider "kubernetes" {
   client_certificate     = base64decode(data.azurerm_kubernetes_cluster.credentials.kube_config.0.client_certificate)
   client_key             = base64decode(data.azurerm_kubernetes_cluster.credentials.kube_config.0.client_key)
   cluster_ca_certificate = base64decode(data.azurerm_kubernetes_cluster.credentials.kube_config.0.cluster_ca_certificate)
-  config_path = "~/.kube/config"
+  config_path            = "~/.kube/config"
 }
 
 # Create the test namespace

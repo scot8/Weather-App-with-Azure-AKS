@@ -15,22 +15,22 @@ provider "azurerm" {
   features {}
 }
 
-# Configure backend
-terraform {
-  backend "azurerm" {
-    resource_group_name  = "tfstate-rg"
-    storage_account_name = "tfstateprod"
-    container_name       = "tfstate"
-    key                  = "prod.terraform.tfstate"
-  }
-}
+# # Configure backend
+# terraform {
+#   backend "azurerm" {
+#     resource_group_name  = "tfstate-rg"
+#     storage_account_name = "tfstateprod"
+#     container_name       = "tfstate"
+#     key                  = "prod.terraform.tfstate"
+#   }
+# }
 
 # Create backend storage
 module "backend" {
   source = "../../modules/tf-backend"
 
   location             = var.location
-  storage_account_name = "tfstateprod"
+  storage_account_name = "tf12stateprodrohan"
   tags = {
     Environment = "prod"
   }
@@ -89,7 +89,7 @@ module "app" {
   redis_subnet_id     = module.network.prod_subnet_id
   acr_name            = "${var.prefix}g${var.group_number}acr"
   weather_api_key     = var.weather_api_key
-  //aks_principal_id = module.aks.principal_id
+  aks_principal_id    = module.aks.principal_id
 
   depends_on = [kubernetes_namespace.prod]
 }
