@@ -1,4 +1,4 @@
-# CST8918 Final Project: Weather App with Azure AKS
+# Weather App with Azure AKS
 
 This project demonstrates Infrastructure as Code (IaC) using Terraform to deploy a Remix Weather Application on Azure Kubernetes Service (AKS) with Azure Cache for Redis.
 
