@@ -14,12 +14,6 @@ cst8918-final-project/
 └── README.md
 ```
 
-## Team Members
-
-- [Your Name] (GitHub: [your-github-username])
-- [Team Member 2] (GitHub: [their-github-username])
-- [Team Member 3] (GitHub: [their-github-username])
-
 ## Prerequisites
 
 - Azure CLI
